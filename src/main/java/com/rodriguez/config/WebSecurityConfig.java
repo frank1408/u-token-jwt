@@ -32,18 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		// configurar AuthenticationManager
-		// con los detalles del usuario
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		// codificador de contrasenas por defecto
-		//return new BCryptPasswordEncoder();
-		
-		// "codificador"
-		// ( no cofifica )
 		return new Mipasswordencoder();
 	}
 
@@ -55,28 +48,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		// DesHabilitar CSRF
+		
 		httpSecurity.csrf().disable()
-		
-		// acceso publico / whitelist
-		.authorizeRequests().antMatchers("/api/noauth/login").permitAll().
-		
-		
-		// all other requests need to be authenticated
-		anyRequest().authenticated().and().
-		
-
-		// control de excepciones
-		exceptionHandling()
+		.authorizeRequests().antMatchers("/api/noauth/login").permitAll().		
+		anyRequest().authenticated().and().exceptionHandling()
 		.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-		
-		// se establece StateLess ( sin estado )
 		.and().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-		// Se agrega un filtro personalizado a la cadena de filtros
-		// en la configuracion de SpringBootSecurity
-		// para validar tokens JWT por cada peticion/request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 }
