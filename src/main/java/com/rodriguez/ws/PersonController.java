@@ -69,52 +69,23 @@ public class PersonController implements IPersonWebService {
 			|| userName == null
 			|| password == null
 		) {
-			System.err.println("Usuario o password invalido");
-			System.err.println("");
-			System.err.println("! >0");
-			System.err.println("");
-			System.err.println("Usuario o password invalido");
 			throw new Exception();
 		}
 		
 		Person pperson = personRepository.findByUserName(userName);
 		if( pperson == null ) {
-			System.err.println("Usuario o password invalido");
-			System.err.println("");
-			System.err.println("pperson is null");
-			System.err.println("");
-			System.err.println("Usuario o password invalido");
 			throw new Exception();
 		}
 		if( pperson.getPassword().equals( password )){
-			//
-			// usuario y password coinciden a la perfeccion
-			//
 			try {
 				authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(
 							userName, password
 				));
 			} catch ( Exception e) {
-				
-				System.err.println("authenticationManager.authenticate");
-				System.err.println("");
-				System.err.println("\t\tUsernamePasswordAuthenticationToken");
-				System.err.println("");
-				System.err.println("authenticationManager.authenticate");
 				throw new Exception();
 			}
-			//
-			// usuario y password coinciden a la perfeccion
-			//
 		}else {
-			 System.err.println("Usuario o password invalido");
-			 System.err.println("");
-			 System.err.println("userInput");
-			 System.err.println("user:password " +userName+":"+ password);
-			 System.err.println("");
-			 System.err.println("userDb");
-			 System.err.println("user:password "+pperson.getUserName()+":"+ pperson.getPassword());
 			throw new Exception("Usuario o password invalido");
 		}
 	}
