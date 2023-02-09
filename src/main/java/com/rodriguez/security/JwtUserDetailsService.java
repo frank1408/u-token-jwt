@@ -26,11 +26,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 			);
 		
 		if( personFromDatabase == null ) {
-			System.err.println("JwtUserDetailsService.loadUserByUsername");
-			System.err.println("PersonFromDatabase=" + personFromDatabase + " is null");
-			System.err.println("args: " + username);
-			System.err.println("JwtUserDetailsService.loadUserByUsername");
-			
 			throw new UsernameNotFoundException("UsernameNotFound");
 		}
 		if(personFromDatabase.getUserName().equals(username)) {
@@ -40,7 +35,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 				new ArrayList<>()
 			);
 		}
-		System.err.println("JwtUserDetailsService.loadUserByUsername");
 		throw new UsernameNotFoundException("Usuario o password invalido2");
 
 	}
