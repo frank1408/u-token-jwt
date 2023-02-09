@@ -40,22 +40,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			jwtToken = requestTokenHeader.substring(7);
 			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-			} catch (Exception e) {
-				//JWT Token expiro o es invalido
-			}
-		} else {
-			// no empieza con el prefijo "Bearer "
-			// o es null
+			} catch (Exception e) {}
 		}
 
-		//proceso para validar el token
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			
 
 			UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 			
-			// si el token es valido
-			// se configura la authentication
 			if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
 				
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
@@ -71,15 +63,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 						.buildDetails(request)
 					);
 				
-				
-				// se actualiza el contexto de seguridad
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			}
 		}
-		// si el userName es null
-		// o la autenticacion es distinta de null
-		// se pasa la solicitud para ser procesada
-		// por el siguiente filtro en la cadena de filtros
+		
 		chain.doFilter(request, response);
 	}
 
