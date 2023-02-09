@@ -20,18 +20,11 @@ public class JwtTokenUtil implements Serializable {
 	
 	private static final long serialVersionUID = -2550185865626007488L;
 	
-	// 1minuto en milisegundos
 	public static final long validezDelToken = 60000;
 
-	
-	// extrae o copia
-	// el valor de la propiedad
-	// en secret
 	@Value("${jwt.secret}")
 	private String secret;
 
-	
-	
 	public String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
 	}
@@ -92,9 +85,6 @@ public class JwtTokenUtil implements Serializable {
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
 
 		final Long milisegundoActual = System.currentTimeMillis();
-		
-		System.out.println(new Date(milisegundoActual));
-		System.out.println(new Date(milisegundoActual + validezDelToken ));
 		
 		return Jwts.builder()
 				.setClaims(claims)
