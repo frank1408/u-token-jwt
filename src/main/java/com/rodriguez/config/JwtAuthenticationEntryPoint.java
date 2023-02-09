@@ -22,16 +22,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 
 	response.setStatus(
 			HttpServletResponse.SC_OK
-			);
-		/*
-		response.sendError(
-				HttpServletResponse.SC_BAD_REQUEST,
-				""
-		);
-		*/
-	
-		
-		
+			);		
 		
 	}
 }
